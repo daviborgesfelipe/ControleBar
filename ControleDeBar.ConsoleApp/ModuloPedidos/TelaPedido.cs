@@ -24,17 +24,19 @@ namespace ControleDeBar.ConsoleApp.ModuloPedidos
         }
         protected override void MostrarTabela(ArrayList registros)
         {
-            const string FORMATO_TABELA = "{0, -5} | {1, -7} | {2, -15} | {3, -10} | {4}";
-            Console.WriteLine(FORMATO_TABELA, "Id", "IdItem", "Produto", "Valor", "Quantidade");
-            Console.WriteLine("--------------------------------------------------------------------");
+            const string FORMATO_TABELA = "| {0, -8} | {1, -10} | {2, -15} | {3, -10} | {4, -8} | {5, -10} |";
+            Console.WriteLine(FORMATO_TABELA, "IdPedido", "IdProduto", "Produto", "Quantidade", "Valor", "ValorTotal");
+            Console.WriteLine("--------------------------------------------------------------------------------");
             foreach (Pedido pedido in registros)
             {
-                Console.WriteLine(FORMATO_TABELA,
+                Console.WriteLine(
+                    FORMATO_TABELA,
                     pedido.id,
                     pedido.produto.id,
                     pedido.produto.nome,
-                    pedido.produto.valor,
-                    pedido.quantidade
+                    pedido.quantidade,
+                    "R$" + pedido.produto.valor,
+                    "R$" + pedido.produto.valor * pedido.quantidade
                     );
             }
         }
@@ -53,7 +55,7 @@ namespace ControleDeBar.ConsoleApp.ModuloPedidos
         }
         private Produto ObterProduto()
         {
-            telaProduto.VisualizarRegistros(false);
+            telaProduto.VisualizarRegistros(true);
             Console.Write("\nDigite o id do produto: ");
             int idProduto = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine();

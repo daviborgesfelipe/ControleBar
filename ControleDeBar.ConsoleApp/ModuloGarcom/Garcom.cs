@@ -1,6 +1,4 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
-using ControleDeBar.ConsoleApp.ModuloMesa;
-using ControleDeBar.ConsoleApp.ModuloPedidos;
 using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloGarcom

@@ -1,4 +1,5 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
+using ControleDeBar.ConsoleApp.ModuloGarcom;
 using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloMesa

@@ -10,6 +10,7 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
         RepositorioMesa repositorioMesa;
         RepositorioGarcom repositorioGarcom;
         TelaGarcom telaGarcom;
+        TelaMesa telaMesa;
 
         public TelaMesa(
             RepositorioMesa _repositorioMesa,
@@ -25,18 +26,23 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
         }
         protected override void MostrarTabela(ArrayList registros)
         {
-            const string FORMATO_TABELA = "{0, -5} | {1}";
-            Console.WriteLine(FORMATO_TABELA, "Id", "Numero");
-            Console.WriteLine("--------------------------------------------------------------------");
+            const string FORMATO_TABELA = "| {0, -8} | {1, -10} | {2, -20} |";
+            Console.WriteLine(FORMATO_TABELA, "IdMesa", "NumeroMesa", "Garçom");
+            Console.WriteLine("------------------------------------------------");
             foreach (Mesa mesa in registros)
             {
-                Console.WriteLine(FORMATO_TABELA, mesa.id, mesa.numero);
+                Console.WriteLine(
+                    FORMATO_TABELA,
+                    mesa.id,
+                    mesa.numero,
+                    mesa.garcom.nome
+                    );
             }
         }
         private Garcom ObterGarcom()
         {
             telaGarcom.VisualizarRegistros(false);
-            Console.Write("\nDigite o id do garçom: ");
+            Console.Write("\nDigite o id do garçom que atendeu a mesa: ");
             int idGarcom = Convert.ToInt32(Console.ReadLine());
             Garcom garcom = repositorioGarcom.SelecionarPorId(idGarcom);
             Console.WriteLine();
@@ -44,8 +50,9 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
         }
         protected override EntidadeBase ObterRegistro()
         {
-            Console.Write("Digite o numero: ");
+            Console.Write($"Digite o numero da mesa: ");
             int numero = Convert.ToInt32(Console.ReadLine());
+            Console.WriteLine();
             Garcom garcom = ObterGarcom();
             return new Mesa(numero, garcom);
         }

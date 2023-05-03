@@ -37,7 +37,10 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
         }
         public virtual void InserirNovoRegistro()
         {
-            MostrarCabecalho($"Cadastro de {nomeEntidade}{sufixo}", "Inserindo um novo registro...");
+            MostrarCabecalho(
+                $"Cadastro de {nomeEntidade}{sufixo}",
+                "Inserindo um novo registro..."
+                );
             EntidadeBase registro = ObterRegistro();
             if (TemErrosDeValidacao(registro))
             {
@@ -45,24 +48,36 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
                 return;
             }
             repositorioBase.Inserir(registro);
-            MostrarMensagem($"Registro de {nomeEntidade} inserido com sucesso!", ConsoleColor.Green);
+            MostrarMensagem(
+                $"Registro de {nomeEntidade} inserido com sucesso!",
+                ConsoleColor.Green
+                );
         }
         public virtual void VisualizarRegistros(bool mostrarCabecalho)
         {
             if (mostrarCabecalho)
             {
-                MostrarCabecalho($"Cadastro de {nomeEntidade}{sufixo}", $"Visualizando registros de {nomeEntidade}{sufixo} já cadastrados...");
+                MostrarCabecalho(
+                    $"Cadastro de {nomeEntidade}{sufixo}",
+                    $"Visualizando registros de {nomeEntidade}{sufixo} já cadastrados..."
+                    );
             }
             ArrayList registros = repositorioBase.SelecionarTodos();
             if (registros.Count == 0)
             {
-                MostrarMensagem($"Nenhum registro de {nomeEntidade} cadastrado", ConsoleColor.DarkYellow);
+                MostrarMensagem(
+                    $"Nenhum registro de {nomeEntidade} cadastrado",
+                    ConsoleColor.DarkYellow
+                    );
             }
             MostrarTabela(registros);
         }
         public virtual void EditarRegistro()
         {
-            MostrarCabecalho($"Cadastro de {nomeEntidade}{sufixo}", "Editando um registro já cadastrado...");
+            MostrarCabecalho(
+                $"Cadastro de {nomeEntidade}{sufixo}",
+                "Editando um registro já cadastrado..."
+                );
             VisualizarRegistros(false);
             Console.WriteLine();
             EntidadeBase registro = EncontrarRegistro($"Digite o id do registro de {nomeEntidade}: ");
@@ -73,16 +88,24 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
                 return;
             }
             repositorioBase.Editar(registro, registroAtualizado);
-            MostrarMensagem($"Registro de {nomeEntidade} editado com sucesso!", ConsoleColor.Green);
+            MostrarMensagem(
+                $"Registro de {nomeEntidade} editado com sucesso!",
+                ConsoleColor.Green);
         }
         public virtual void ExcluirRegistro()
         {
-            MostrarCabecalho($"Cadastro de {nomeEntidade}{sufixo}", "Excluindo um registro já cadastrado...");
+            MostrarCabecalho(
+                $"Cadastro de {nomeEntidade}{sufixo}",
+                $"Excluindo um registro de {nomeEntidade} já cadastrado..."
+                );
             VisualizarRegistros(false);
             Console.WriteLine();
             EntidadeBase registro = EncontrarRegistro("Digite o id do registro: ");
             repositorioBase.Excluir(registro);
-            MostrarMensagem($"Registro de {nomeEntidade} excluído com sucesso!", ConsoleColor.Green);
+            MostrarMensagem(
+                $"Registro de {nomeEntidade} excluído com sucesso!",
+                ConsoleColor.Green
+                );
         }      
         public virtual EntidadeBase EncontrarRegistro(string textoCampo)
         {            
@@ -107,7 +130,10 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
                 }
                 if (idInvalido)
                 {
-                    MostrarMensagem("Id inválido, tente novamente", ConsoleColor.Red);
+                    MostrarMensagem(
+                        "Id inválido, tente novamente",
+                        ConsoleColor.Red
+                        );
                 }
             } while (idInvalido);
 

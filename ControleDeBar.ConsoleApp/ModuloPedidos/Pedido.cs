@@ -8,10 +8,16 @@ namespace ControleDeBar.ConsoleApp.ModuloPedidos
     {
         public Produto produto;
         public int quantidade;
+        public double valorTotal;
         public Pedido(Produto produto, int quantidade)
         {
             this.produto = produto;
             this.quantidade = quantidade;
+            SomarValoresDosPedidos(produto);
+        }
+        public void SomarValoresDosPedidos(Produto produto)
+        {
+            this.valorTotal = quantidade * produto.valor;
         }
         public override void AtualizarInformacoes(EntidadeBase registroAtualizado)
         {

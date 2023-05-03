@@ -8,7 +8,7 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
     public class Mesa : EntidadeBase
     {
         public int numero;
-        Garcom garcom;
+        public Garcom garcom;
         public Mesa(int numero, Garcom garcom)
         {
             this.numero = numero;
@@ -21,7 +21,10 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
             this.numero = mesaAtualizado.numero;
             this.garcom = mesaAtualizado.garcom;
         }
-
+        public void AdicionarGarcomNaMesa(Garcom garcom)
+        {
+            this.garcom = garcom;
+        }
         public override ArrayList Validar()
         {
             ArrayList erros = new ArrayList();

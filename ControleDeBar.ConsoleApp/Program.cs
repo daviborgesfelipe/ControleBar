@@ -35,8 +35,10 @@ namespace ControleDeBar.ConsoleApp
                 _repositorioConta,
                 _repositorioPedido,
                 _repositorioMesa,
+                _repositorioGarcom,
                 _telaMesa,
-                _telaPedido
+                _telaPedido,
+                _telaGarcom
                 );
 
             program.CadastrarEntidades(
@@ -160,6 +162,10 @@ namespace ControleDeBar.ConsoleApp
                     {
                         _telaConta.ExcluirRegistro();
                     }
+                    else if (subMenu == 5)
+                    {
+                        _telaConta.FecharContar();
+                    }
                 }
             }
         }
@@ -190,11 +196,13 @@ namespace ControleDeBar.ConsoleApp
             Pedido pedidoTres = new Pedido(produtoCinco, 5);
             Pedido pedidoQuatro = new Pedido(produtoTres, 14);
             Pedido pedidoCinco = new Pedido(produtoSeis, 3);
+            Pedido pedidoSeis = new Pedido(produtoQuatro, 2);
             _repositorioPedido.Inserir(pedidoUm);
             _repositorioPedido.Inserir(pedidoDois);
             _repositorioPedido.Inserir(pedidoTres);
             _repositorioPedido.Inserir(pedidoQuatro);
             _repositorioPedido.Inserir(pedidoCinco);
+            _repositorioPedido.Inserir(pedidoSeis);
 
 
             Garcom garcomUm = new Garcom("Kelly Slater");
@@ -218,6 +226,8 @@ namespace ControleDeBar.ConsoleApp
             Conta contaUm = new Conta(pedidoUm, mesaTres);
             Conta contaDois = new Conta(pedidoQuatro, mesaQuatro);
             Conta contaTres = new Conta(pedidoDois, mesaTres);
+            contaUm.AdicionarPedidoNaLista(pedidoDois);
+            contaUm.SomarValoresDosPedidos(pedidoDois);
             Conta contaQuatro = new Conta(pedidoTres, mesaUm);
             Conta contaCinco = new Conta(pedidoCinco, mesaDois);
             _repositorioConta.Inserir(contaUm);

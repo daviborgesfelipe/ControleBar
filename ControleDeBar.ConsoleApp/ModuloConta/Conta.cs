@@ -7,14 +7,38 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 {
     public class Conta : EntidadeBase
     {
-        public Pedido pedido;
         public Mesa mesa;
+        public Pedido pedido;
         public double valorTotal;
-        public Conta(Pedido pedidos, Mesa mesa)
+        public string status;
+        public ArrayList pedidos;
+        public Conta(Pedido pedido, Mesa mesa)
         {
-            this.pedido = pedidos;
             this.mesa = mesa;
-            this.valorTotal = this.valorTotal + (pedido.quantidade * pedido.produto.valor);
+            this.status = "Aberta";
+            this.pedidos = new ArrayList();
+            this.valorTotal =+ (pedido.quantidade * pedido.produto.valor);
+            pedidos.Add(pedido);
+        }
+        public void AdicionarPedidoNaLista(Pedido pedido)
+        {
+            if (this.pedidos.Count > 0)
+            {
+                this.pedidos.Add(pedido);
+            }
+            else
+            {
+                this.pedido = pedido;
+                this.pedidos.Add(this.pedido);
+            }
+        }
+        public void SomarValoresDosPedidos(Pedido pedido)
+        {
+            this.valorTotal =+ pedido.valorTotal;
+        }
+        public void PagarConta()
+        {
+            this.status = "Pago";
         }
         public override void AtualizarInformacoes(EntidadeBase registroAtualizado)
         {
