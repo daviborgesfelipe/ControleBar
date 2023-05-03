@@ -187,8 +187,8 @@ namespace ControleDeBar.ConsoleApp
 
             Pedido pedidoUm = new Pedido(produtoDois, 2);
             Pedido pedidoDois = new Pedido(produtoUm, 3);
-            Pedido pedidoTres = new Pedido(produtoCinco, 3);
-            Pedido pedidoQuatro = new Pedido(produtoTres, 3);
+            Pedido pedidoTres = new Pedido(produtoCinco, 5);
+            Pedido pedidoQuatro = new Pedido(produtoTres, 14);
             Pedido pedidoCinco = new Pedido(produtoSeis, 3);
             _repositorioPedido.Inserir(pedidoUm);
             _repositorioPedido.Inserir(pedidoDois);
@@ -215,10 +215,16 @@ namespace ControleDeBar.ConsoleApp
             _repositorioMesa.Inserir(mesaTres);
             _repositorioMesa.Inserir(mesaQuatro);
 
-            Conta contaUm = new Conta(pedidoUm, mesaDois);
-            Conta contaDois = new Conta(pedidoDois, mesaUm);
+            Conta contaUm = new Conta(pedidoUm, mesaTres);
+            Conta contaDois = new Conta(pedidoQuatro, mesaQuatro);
+            Conta contaTres = new Conta(pedidoDois, mesaTres);
+            Conta contaQuatro = new Conta(pedidoTres, mesaUm);
+            Conta contaCinco = new Conta(pedidoCinco, mesaDois);
             _repositorioConta.Inserir(contaUm);
             _repositorioConta.Inserir(contaDois);
+            _repositorioConta.Inserir(contaTres);
+            _repositorioConta.Inserir(contaQuatro);
+            _repositorioConta.Inserir(contaCinco);
         }
 
         public int ApresentarMenu()

@@ -24,8 +24,8 @@ namespace ControleDeBar.ConsoleApp.ModuloPedidos
         }
         protected override void MostrarTabela(ArrayList registros)
         {
-            const string FORMATO_TABELA = "{0, -5} | {1, -5} | {2, -15} | {3, -10} | {4}";
-            Console.WriteLine(FORMATO_TABELA, "Id", "Id Item", "Produto", "Valor", "Quantidade");
+            const string FORMATO_TABELA = "{0, -5} | {1, -7} | {2, -15} | {3, -10} | {4}";
+            Console.WriteLine(FORMATO_TABELA, "Id", "IdItem", "Produto", "Valor", "Quantidade");
             Console.WriteLine("--------------------------------------------------------------------");
             foreach (Pedido pedido in registros)
             {

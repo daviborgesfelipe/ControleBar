@@ -31,12 +31,12 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
         }
         protected override void MostrarTabela(ArrayList registros)
         {
-            const string FORMATO_TABELA = "{0, -5} | {1, -10} | {2}";
-            Console.WriteLine(FORMATO_TABELA, "IdConta", "IdPedido", "ValorTotal");
+            const string FORMATO_TABELA = "{0, -8} | {1, -10} | {2, -10} | {3}";
+            Console.WriteLine(FORMATO_TABELA, "IdConta", "IdPedido", "Qntd", "ValorTotal");
             Console.WriteLine("--------------------------------------------------------------------");
             foreach (Conta conta in registros)
             {
-                Console.WriteLine(FORMATO_TABELA, conta.id, conta.pedido.id, conta.valorTotal);
+                Console.WriteLine(FORMATO_TABELA, conta.id, conta.pedido.id, conta.pedido.quantidade, "R$"+conta.valorTotal);
             }
         }
         protected override EntidadeBase ObterRegistro()
