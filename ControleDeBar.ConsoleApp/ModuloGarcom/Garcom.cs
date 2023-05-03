@@ -1,24 +1,17 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
-using ControleDeBar.ConsoleApp.ModuloFuncionario;
-using System;
+using ControleDeBar.ConsoleApp.ModuloMesa;
+using ControleDeBar.ConsoleApp.ModuloPedidos;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ControleDeBar.ConsoleApp.ModuloGarcom
 {
     public class Garcom : EntidadeBase
     {
         public string nome;
-
         public Garcom(string nome)
         {
             this.nome = nome;
         }
-
         public override void AtualizarInformacoes(EntidadeBase registroAtualizado)
         {
             Garcom garcomAtualizado = (Garcom)registroAtualizado;

@@ -1,11 +1,5 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
-using ControleDeBar.ConsoleApp.ModuloMesa;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ControleDeBar.ConsoleApp.ModuloProdutos
 {
@@ -15,9 +9,9 @@ namespace ControleDeBar.ConsoleApp.ModuloProdutos
         {
             this.listaRegistros = listaProduto;
         }
-        public override Produtos SelecionarPorId(int id)
+        public override Produto SelecionarPorId(int id)
         {
-            return (Produtos)base.SelecionarPorId(id);
+            return (Produto)base.SelecionarPorId(id);
         }
     }
 }
