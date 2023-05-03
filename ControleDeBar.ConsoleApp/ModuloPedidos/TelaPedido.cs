@@ -1,19 +1,13 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
-using ControleDeBar.ConsoleApp.ModuloFuncionario;
 using ControleDeBar.ConsoleApp.ModuloProdutos;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ControleDeBar.ConsoleApp.ModuloPedidos
 {
     public class TelaPedido : TelaBase
     {
-        private RepositorioProduto repositorioProduto;
         private RepositorioPedido repositorioPedido;
+        private RepositorioProduto repositorioProduto;
         private TelaProduto telaProduto;
         public TelaPedido(
             RepositorioPedido _repositorioPedido,
@@ -26,44 +20,45 @@ namespace ControleDeBar.ConsoleApp.ModuloPedidos
             this.repositorioProduto = _repositorioProduto;
             this.telaProduto = _telaProduto;
             nomeEntidade = "Pedido";
+            sufixo = "s";
         }
         protected override void MostrarTabela(ArrayList registros)
         {
-            const string FORMATO_TABELA = "{0, -10} | {1, -20} | {2}";
-
-            Console.WriteLine(FORMATO_TABELA, "Id", "Produto Pedido", "Valor Total");
-
+            const string FORMATO_TABELA = "{0, -5} | {1, -5} | {2, -15} | {3, -10} | {4}";
+            Console.WriteLine(FORMATO_TABELA, "Id", "Id Item", "Produto", "Valor", "Quantidade");
             Console.WriteLine("--------------------------------------------------------------------");
-
-            foreach (Pedidos pedidos in registros)
+            foreach (Pedido pedido in registros)
             {
                 Console.WriteLine(FORMATO_TABELA,
-                    pedidos.id,
-                    pedidos.produtos.nome,
-                    pedidos.valorTotal);
-
+                    pedido.id,
+                    pedido.produto.id,
+                    pedido.produto.nome,
+                    pedido.produto.valor,
+                    pedido.quantidade
+                    );
             }
         }
 
         protected override EntidadeBase ObterRegistro()
         {
-            Produtos produto = ObterPedido();
-            Console.Write("Digite a quantidade: ");
-            int quantidade = Convert.ToInt32(Console.ReadLine());
-            double valorTotal = produto.valor * quantidade;
-            //Console.Write("Digite a data: ");
-            //DateTime data = Convert.ToDateTime(Console.ReadLine());
-            return new Pedidos(produto, valorTotal);
+            Produto produto = ObterProduto();
+            int quantidade = ObterQuantidade();
+            return new Pedido(produto, quantidade);
         }
-
-        private Produtos ObterPedido()
+        private int ObterQuantidade()
+        {
+            Console.Write("\nDigite a quantidade do produto: ");
+            int quantidade = Convert.ToInt32(Console.ReadLine());
+            return quantidade;
+        }
+        private Produto ObterProduto()
         {
             telaProduto.VisualizarRegistros(false);
             Console.Write("\nDigite o id do produto: ");
             int idProduto = Convert.ToInt32(Console.ReadLine());
-            Produtos pedido = repositorioProduto.SelecionarPorId(idProduto);
             Console.WriteLine();
-            return pedido;
+            Produto produto = repositorioProduto.SelecionarPorId(idProduto);
+            return produto;
         }
     }
 }

@@ -9,14 +9,16 @@ namespace ControleDeBar.ConsoleApp.ModuloProdutos
         {
             this.repositorioBase = _repositorioProduto;
             nomeEntidade = "Produto";
+            sufixo = "s";
         }
         protected override void MostrarTabela(ArrayList registros)
         {
-            Console.WriteLine("{0, -10} | {1, -20} | {2}", "Id", "Nome", "Valor");
+            const string FORMATO_TABELA = "{0, -5} | {1, -20} | {2}";
+            Console.WriteLine(FORMATO_TABELA, "Id", "Nome", "Valor");
             Console.WriteLine("--------------------------------------------------------------------");
-            foreach (Produtos produto in registros)
+            foreach (Produto produto in registros)
             {
-                Console.WriteLine("{0, -10} | {1, -20} | {2}", produto.id, produto.nome, produto.valor);
+                Console.WriteLine(FORMATO_TABELA, produto.id, produto.nome, produto.valor);
             }
         }
 
@@ -26,7 +28,7 @@ namespace ControleDeBar.ConsoleApp.ModuloProdutos
             string nome = Console.ReadLine();
             Console.WriteLine("Digite o valor: ");
             int valor = Convert.ToInt32(Console.ReadLine());
-            return new Produtos(nome, valor);
+            return new Produto(nome, valor);
         }
     }
 }

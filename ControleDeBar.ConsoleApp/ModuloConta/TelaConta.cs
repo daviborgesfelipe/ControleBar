@@ -1,5 +1,4 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
-using ControleDeBar.ConsoleApp.ModuloFuncionario;
 using ControleDeBar.ConsoleApp.ModuloMesa;
 using ControleDeBar.ConsoleApp.ModuloPedidos;
 using System.Collections;
@@ -8,17 +7,17 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 {
     public class TelaConta : TelaBase
     {
-        TelaPedido telaPedidos;
-        TelaMesa telaMesa;
-        RepositorioPedido repositorioPedidos;
         RepositorioMesa repositorioMesa;
+        RepositorioPedido repositorioPedidos;
+        TelaMesa telaMesa;
+        TelaPedido telaPedidos;
 
         public TelaConta(
             RepositorioConta _repositorioConta,
             RepositorioPedido _repositorioPedidos,
             RepositorioMesa _repositorioMesa,
-            TelaPedido _telaPedidos,
-            TelaMesa _telaMesa
+            TelaMesa _telaMesa,
+            TelaPedido _telaPedidos
             )
         {
             this.repositorioBase = _repositorioConta;
@@ -27,40 +26,42 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             this.telaPedidos = _telaPedidos;
             this.telaMesa = _telaMesa;
             nomeEntidade = "Conta";
+            sufixo = "s";
 
         }
         protected override void MostrarTabela(ArrayList registros)
         {
-            Console.WriteLine("{0, -10} | {1}", "Id", "Numero");
+            const string FORMATO_TABELA = "{0, -5} | {1, -10} | {2}";
+            Console.WriteLine(FORMATO_TABELA, "IdConta", "IdPedido", "ValorTotal");
             Console.WriteLine("--------------------------------------------------------------------");
             foreach (Conta conta in registros)
             {
-                Console.WriteLine("{0, -10} | {1}", conta.id);
+                Console.WriteLine(FORMATO_TABELA, conta.id, conta.pedido.id, conta.valorTotal);
             }
         }
         protected override EntidadeBase ObterRegistro()
         {
-            Pedidos pedido = ObterPedido();
+            Pedido pedido = ObterPedido();
             Mesa mesa = ObterMesa();
-            return new Conta(pedido, mesa, pedido.valorTotal);
+            return new Conta(pedido, mesa);
         }
-        private Pedidos ObterPedido()
+        private Pedido ObterPedido()
         {
-            telaPedidos.VisualizarRegistros(false);
+            telaPedidos.VisualizarRegistros(true);
             Console.Write("\nDigite o id do pedido: ");
             int idPedido = Convert.ToInt32(Console.ReadLine());
-            Pedidos pedidos = repositorioPedidos.SelecionarPorId(idPedido);
+            Pedido pedidos = repositorioPedidos.SelecionarPorId(idPedido);
             Console.WriteLine();
             return pedidos;
         }
         private Mesa ObterMesa()
         {
-            telaMesa.VisualizarRegistros(false);
+            telaMesa.VisualizarRegistros(true);
             Console.Write("\nDigite o id da mesa: ");
-            int idFuncionario = Convert.ToInt32(Console.ReadLine());
-            Mesa funcionario = repositorioMesa.SelecionarPorId(idFuncionario);
+            int idMesa = Convert.ToInt32(Console.ReadLine());
+            Mesa mesa = repositorioMesa.SelecionarPorId(idMesa);
             Console.WriteLine();
-            return funcionario;
+            return mesa;
         }
     }
 }
