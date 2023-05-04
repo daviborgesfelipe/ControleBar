@@ -10,16 +10,13 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
         public virtual void Inserir(EntidadeBase registro)
         {
             contadorRegistros++;
-
             registro.id = contadorRegistros;
-
             listaRegistros.Add(registro);
         }
 
         public virtual void Editar(int id, EntidadeBase registroAtualizado)
         {
             EntidadeBase registroSelecionado = SelecionarPorId(id);
-
             registroSelecionado.AtualizarInformacoes(registroAtualizado);
         }
 
@@ -31,7 +28,6 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
         public virtual void Excluir(int id)
         {
             EntidadeBase registroSelecionado = SelecionarPorId(id);
-
             listaRegistros.Remove(registroSelecionado);
         }
 
@@ -43,7 +39,6 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
         public virtual EntidadeBase SelecionarPorId(int id)
         {
             EntidadeBase registroSelecionado = null;
-
             foreach (EntidadeBase registro in listaRegistros)
             {
                 if (registro.id == id)
@@ -52,7 +47,6 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
                     break;
                 }
             }
-
             return registroSelecionado;
         }
 
