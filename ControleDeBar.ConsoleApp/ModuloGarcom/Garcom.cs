@@ -13,17 +13,16 @@ namespace ControleDeBar.ConsoleApp.ModuloGarcom
         public override void AtualizarInformacoes(EntidadeBase registroAtualizado)
         {
             Garcom garcomAtualizado = (Garcom)registroAtualizado;
-
             this.nome = garcomAtualizado.nome;
         }
 
         public override ArrayList Validar()
         {
             ArrayList erros = new ArrayList();
-
             if (string.IsNullOrEmpty(nome.Trim()))
+            {
                 erros.Add("O campo \"nome\" é obrigatório");
-
+            }
             return erros;
         }
     }
