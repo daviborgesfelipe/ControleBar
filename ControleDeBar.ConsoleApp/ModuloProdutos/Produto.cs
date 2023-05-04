@@ -6,8 +6,8 @@ namespace ControleDeBar.ConsoleApp.ModuloProdutos
     public class Produto : EntidadeBase
     {
         public string nome;
-        public double valor;
-        public Produto(string nome, double valor)
+        public decimal valor;
+        public Produto(string nome, decimal valor)
         {
             this.nome = nome;
             this.valor = valor;
@@ -25,7 +25,13 @@ namespace ControleDeBar.ConsoleApp.ModuloProdutos
             ArrayList erros = new ArrayList();
 
             if (string.IsNullOrEmpty(nome.Trim()))
+            {
                 erros.Add("O campo \"nome\" é obrigatório");
+            }
+            if (valor == 0 || valor == null)
+            {
+                erros.Add("O campo \"valor\" é obrigatório");
+            }
 
             return erros;
         }
