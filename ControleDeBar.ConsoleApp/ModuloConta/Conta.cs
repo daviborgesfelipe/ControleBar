@@ -17,11 +17,11 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
         public DateTime data;
 
         public ArrayList pedidos;
-        public Conta(Mesa mesa, Garcom garcom, DateTime dataAbertura)
+        public Conta(Mesa _mesa, Garcom _garcom, DateTime _dataAbertura)
         {
-            this.mesa = mesa;
-            this.garcom = garcom;
-            this.data = dataAbertura;
+            this.mesa = _mesa;
+            this.garcom = _garcom;
+            this.data = _dataAbertura;
             this.status = "Aberta";
 
             this.pedidos = new ArrayList();
@@ -46,10 +46,6 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             }
             return total;
         }
-        public void SomarValoresDosPedidos(Pedido pedido)
-        {
-            this.valorTotal =+ pedido.valorTotal;
-        }
         public override void AtualizarInformacoes(EntidadeBase registroAtualizado)
         {
             Conta produtoAtualizado = (Conta)registroAtualizado;
@@ -57,21 +53,17 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             this.pedido = produtoAtualizado.pedido;
             this.mesa = produtoAtualizado.mesa;
         }
-
         public override ArrayList Validar()
         {
             ArrayList erros = new ArrayList();
-
             if (garcom == null)
             {
                 erros.Add("O campo \"Garçom\" é obrigatorio");
             }
-
             if (mesa == null)
             {
                 erros.Add("O campo \"Mesa\" é obrigatorio");
             }
-
             return erros;
         }
         private void Abrir()
