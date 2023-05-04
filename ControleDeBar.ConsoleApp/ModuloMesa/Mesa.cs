@@ -1,6 +1,5 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
-using ControleDeBar.ConsoleApp.ModuloConta;
-using ControleDeBar.ConsoleApp.ModuloGarcom;
+using ControleDeBar.ConsoleApp.Compartilhado.Enums;
 using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloMesa
@@ -8,7 +7,7 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
     public class Mesa : EntidadeBase
     {
         public int numero;
-        public bool ocupada;
+        public StatusMesa status;
         public Mesa(int numero)
         {
             this.numero = numero;
@@ -32,12 +31,12 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
 
         public void Desocupar()
         {
-            ocupada = false;
+            status = StatusMesa.Disponivel;
         }
 
         public void Ocupar()
         {
-            ocupada = true;
+            status = StatusMesa.Ocupada;
         }
     }
 }

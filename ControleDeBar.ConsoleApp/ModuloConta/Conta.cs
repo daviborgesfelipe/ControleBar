@@ -1,4 +1,5 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
+using ControleDeBar.ConsoleApp.Compartilhado.Enums;
 using ControleDeBar.ConsoleApp.ModuloGarcom;
 using ControleDeBar.ConsoleApp.ModuloMesa;
 using ControleDeBar.ConsoleApp.ModuloProdutos;
@@ -12,7 +13,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
         public Mesa mesa;
         public Garcom garcom;
         public double valorTotal;
-        public string status;
+        public StatusConta status;
 
         public DateTime data;
 
@@ -22,7 +23,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             this.mesa = _mesa;
             this.garcom = _garcom;
             this.data = _dataAbertura;
-            this.status = "Aberta";
+            this.status = StatusConta.Aberto;
 
             this.pedidos = new ArrayList();
             Abrir();
@@ -68,12 +69,12 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
         }
         private void Abrir()
         {
-            status = "Aberta";
+            status = StatusConta.Aberto;
             mesa.Ocupar();
         }
         private void Fechar()
         {
-            status = "Pago";
+            status = StatusConta.Pago;
             mesa.Desocupar();
         }
     }
