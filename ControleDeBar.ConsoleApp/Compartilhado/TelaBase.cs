@@ -50,7 +50,7 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
             repositorioBase.Inserir(registro);
             MostrarMensagem(
                 $"Registro de {nomeEntidade} inserido com sucesso!",
-                ConsoleColor.Green
+                ConsoleColor.DarkGreen
                 );
         }
         public virtual void VisualizarRegistros(bool mostrarCabecalho)
@@ -80,7 +80,7 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
                 );
             VisualizarRegistros(false);
             Console.WriteLine();
-            EntidadeBase registro = EncontrarRegistro($"Digite o id do registro de {nomeEntidade}: ");
+            EntidadeBase registro = EncontrarEntidade($"Digite o id do registro de {nomeEntidade}: ");
             EntidadeBase registroAtualizado = ObterRegistro();
             if (TemErrosDeValidacao(registroAtualizado))
             {
@@ -90,7 +90,7 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
             repositorioBase.Editar(registro, registroAtualizado);
             MostrarMensagem(
                 $"Registro de {nomeEntidade} editado com sucesso!",
-                ConsoleColor.Green);
+                ConsoleColor.DarkGreen);
         }
         public virtual void ExcluirRegistro()
         {
@@ -100,17 +100,17 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
                 );
             VisualizarRegistros(false);
             Console.WriteLine();
-            EntidadeBase registro = EncontrarRegistro("Digite o id do registro: ");
+            EntidadeBase registro = EncontrarEntidade("Digite o id do registro: ");
             repositorioBase.Excluir(registro);
             MostrarMensagem(
                 $"Registro de {nomeEntidade} excluído com sucesso!",
-                ConsoleColor.Green
+                ConsoleColor.DarkGreen
                 );
         }      
-        public virtual EntidadeBase EncontrarRegistro(string textoCampo)
+        public virtual EntidadeBase EncontrarEntidade(string textoCampo)
         {            
             bool idInvalido;
-            EntidadeBase registroSelecionado = null;
+            EntidadeBase entidadeSelecionada = null;
             do
             {
                 idInvalido = false;
@@ -118,8 +118,8 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
                 try
                 {
                     int id = Convert.ToInt32(Console.ReadLine());
-                    registroSelecionado = repositorioBase.SelecionarPorId(id);
-                    if (registroSelecionado == null)
+                    entidadeSelecionada = repositorioBase.SelecionarPorId(id);
+                    if (entidadeSelecionada == null)
                     {
                         idInvalido = true;
                     }
@@ -132,13 +132,14 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
                 {
                     MostrarMensagem(
                         "Id inválido, tente novamente",
-                        ConsoleColor.Red
+                        ConsoleColor.DarkRed
                         );
                 }
             } while (idInvalido);
 
-            return registroSelecionado;
+            return entidadeSelecionada;
         }
+
         protected bool TemErrosDeValidacao(EntidadeBase registro)
         {
             bool temErros = false;
@@ -146,7 +147,7 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
             if (erros.Count > 0)
             {
                 temErros = true;
-                Console.ForegroundColor = ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.DarkRed;
                 foreach (string erro in erros)
                 {
                     Console.WriteLine(erro);
@@ -156,7 +157,6 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
             }
             return temErros;
         }
-
         protected abstract EntidadeBase ObterRegistro();
         protected abstract void MostrarTabela(ArrayList registros);
     }
