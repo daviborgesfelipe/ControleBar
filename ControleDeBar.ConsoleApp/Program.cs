@@ -1,7 +1,6 @@
 ﻿using ControleDeBar.ConsoleApp.ModuloConta;
 using ControleDeBar.ConsoleApp.ModuloGarcom;
 using ControleDeBar.ConsoleApp.ModuloMesa;
-using ControleDeBar.ConsoleApp.ModuloPedidos;
 using ControleDeBar.ConsoleApp.ModuloProdutos;
 using System.Collections;
 
@@ -17,35 +16,24 @@ namespace ControleDeBar.ConsoleApp
             RepositorioMesa _repositorioMesa = new RepositorioMesa(new ArrayList());
             RepositorioProduto _repositorioProduto = new RepositorioProduto(new ArrayList());
             RepositorioConta _repositorioConta = new RepositorioConta(new ArrayList());
-            RepositorioPedido _repositorioPedido = new RepositorioPedido(new ArrayList());
 
             TelaProduto _telaProduto = new TelaProduto(_repositorioProduto);
             TelaGarcom _telaGarcom = new TelaGarcom(_repositorioGarcom);
-            TelaPedido _telaPedido = new TelaPedido(
-                _repositorioPedido, 
-                _repositorioProduto,
-                _telaProduto
-                );
-            TelaMesa _telaMesa = new TelaMesa(
-                _repositorioMesa,
-                _repositorioGarcom,
-                _telaGarcom
-                );
+            TelaMesa _telaMesa = new TelaMesa(_repositorioMesa);
             TelaConta _telaConta = new TelaConta(
                 _repositorioConta,
-                _repositorioPedido,
                 _repositorioMesa,
                 _repositorioGarcom,
+                _repositorioProduto,
                 _telaMesa,
-                _telaPedido,
-                _telaGarcom
+                _telaGarcom,
+                _telaProduto
                 );
 
             program.CadastrarEntidades(
                 _repositorioGarcom, 
                 _repositorioMesa,
                 _repositorioProduto,
-                _repositorioPedido, 
                 _repositorioConta
                 );
             while (true) 
@@ -119,28 +107,6 @@ namespace ControleDeBar.ConsoleApp
                         _telaProduto.ExcluirRegistro();
                     }
                 }
-                else if (opcaoMenuInicial == 4)
-                {
-                    int subMenu = _telaPedido.ApresentarMenu();
-
-                    if (subMenu == 1)
-                    {
-                        _telaPedido.InserirNovoRegistro();
-                    }
-                    else if (subMenu == 2)
-                    {
-                        _telaPedido.VisualizarRegistros(true);
-                        Console.ReadLine();
-                    }
-                    else if (subMenu == 3)
-                    {
-                        _telaPedido.EditarRegistro();
-                    }
-                    else if (subMenu == 4)
-                    {
-                        _telaPedido.ExcluirRegistro();
-                    }
-                }
                 else if (opcaoMenuInicial == 5)
                 {
                     int subMenu = _telaConta.ApresentarMenu();
@@ -156,13 +122,22 @@ namespace ControleDeBar.ConsoleApp
                     }
                     else if (subMenu == 3)
                     {
-                        _telaConta.EditarRegistro();
+                        // registrar pedidos
+                        _telaConta.RegistrarPedidos();
                     }
                     else if (subMenu == 4)
                     {
-                        _telaConta.ExcluirRegistro();
+                        // visualizar contas abertas
+                        _telaConta.VisualizarContasAbertas();
+                        Console.ReadLine();
                     }
                     else if (subMenu == 5)
+                    {
+                        // visualizar faturamento do dia
+                        _telaConta.VisualizarFaturamentoDoDia();
+                        Console.ReadLine();
+                    }
+                    else if (subMenu == 6)
                     {
                         _telaConta.FecharContar();
                     }
@@ -174,16 +149,15 @@ namespace ControleDeBar.ConsoleApp
             RepositorioGarcom _repositorioGarcom,
             RepositorioMesa _repositorioMesa,
             RepositorioProduto _repositorioProduto,
-            RepositorioPedido _repositorioPedido,
             RepositorioConta _repositorioConta
             )
         {
             Produto produtoUm = new Produto("Caipirinha", 10);
             Produto produtoDois = new Produto("Ovo Concerva", 2);
-            Produto produtoTres = new Produto("Ficha sinuca", 0.5);
+            Produto produtoTres = new Produto("Ficha sinuca", 0.50M);
             Produto produtoQuatro = new Produto("Cerveja", 7);
-            Produto produtoCinco = new Produto("Coca-cola", 6.5);
-            Produto produtoSeis = new Produto("Batata-frita", 9.5);
+            Produto produtoCinco = new Produto("Coca-cola", 6.50M);
+            Produto produtoSeis = new Produto("Batata frita", 9.50M);
             _repositorioProduto.Inserir(produtoUm);
             _repositorioProduto.Inserir(produtoDois);
             _repositorioProduto.Inserir(produtoTres);
@@ -197,13 +171,6 @@ namespace ControleDeBar.ConsoleApp
             Pedido pedidoQuatro = new Pedido(produtoTres, 14);
             Pedido pedidoCinco = new Pedido(produtoSeis, 3);
             Pedido pedidoSeis = new Pedido(produtoQuatro, 2);
-            _repositorioPedido.Inserir(pedidoUm);
-            _repositorioPedido.Inserir(pedidoDois);
-            _repositorioPedido.Inserir(pedidoTres);
-            _repositorioPedido.Inserir(pedidoQuatro);
-            _repositorioPedido.Inserir(pedidoCinco);
-            _repositorioPedido.Inserir(pedidoSeis);
-
 
             Garcom garcomUm = new Garcom("Kelly Slater");
             Garcom garcomDois = new Garcom("Gabriel Medina");
@@ -214,22 +181,23 @@ namespace ControleDeBar.ConsoleApp
             _repositorioGarcom.Inserir(garcomTres);
             _repositorioGarcom.Inserir(garcomQuatro);
 
-            Mesa mesaUm = new Mesa(333, garcomQuatro);
-            Mesa mesaDois = new Mesa(444, garcomDois);
-            Mesa mesaTres = new Mesa(777, garcomUm);
-            Mesa mesaQuatro = new Mesa(111, garcomTres);
+            Mesa mesaUm = new Mesa(333);
+            Mesa mesaDois = new Mesa(444);
+            Mesa mesaTres = new Mesa(777);
+            Mesa mesaQuatro = new Mesa(111);
             _repositorioMesa.Inserir(mesaUm);
             _repositorioMesa.Inserir(mesaDois);
             _repositorioMesa.Inserir(mesaTres);
             _repositorioMesa.Inserir(mesaQuatro);
 
-            Conta contaUm = new Conta(pedidoUm, mesaTres);
-            Conta contaDois = new Conta(pedidoQuatro, mesaQuatro);
-            Conta contaTres = new Conta(pedidoDois, mesaTres);
-            contaUm.AdicionarPedidoNaLista(pedidoDois);
-            contaUm.SomarValoresDosPedidos(pedidoDois);
-            Conta contaQuatro = new Conta(pedidoTres, mesaUm);
-            Conta contaCinco = new Conta(pedidoCinco, mesaDois);
+            Conta contaUm = new Conta(mesaTres, garcomUm, DateTime.Now);
+            contaUm.RegistrarPedido(produtoCinco, 3);
+            contaUm.RegistrarPedido(produtoDois, 7);
+
+            Conta contaDois = new Conta(mesaQuatro, garcomDois, DateTime.Now);
+            Conta contaTres = new Conta(mesaTres, garcomTres, DateTime.Now);
+            Conta contaQuatro = new Conta(mesaUm, garcomQuatro, DateTime.Now);
+            Conta contaCinco = new Conta(mesaDois, garcomTres, DateTime.Now);
             _repositorioConta.Inserir(contaUm);
             _repositorioConta.Inserir(contaDois);
             _repositorioConta.Inserir(contaTres);
