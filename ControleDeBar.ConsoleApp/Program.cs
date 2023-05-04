@@ -107,7 +107,7 @@ namespace ControleDeBar.ConsoleApp
                         _telaProduto.ExcluirRegistro();
                     }
                 }
-                else if (opcaoMenuInicial == 5)
+                else if (opcaoMenuInicial == 4)
                 {
                     int subMenu = _telaConta.ApresentarMenu();
 
@@ -152,18 +152,20 @@ namespace ControleDeBar.ConsoleApp
             RepositorioConta _repositorioConta
             )
         {
-            Produto produtoUm = new Produto("Caipirinha", 10);
-            Produto produtoDois = new Produto("Ovo Concerva", 2);
+            Produto produtoUm = new Produto("Caipirinha", 10.00M);
+            Produto produtoDois = new Produto("Ovo Concerva", 2.00M);
             Produto produtoTres = new Produto("Ficha sinuca", 0.50M);
-            Produto produtoQuatro = new Produto("Cerveja", 7);
+            Produto produtoQuatro = new Produto("Cerveja", 7.00M);
             Produto produtoCinco = new Produto("Coca-cola", 6.50M);
             Produto produtoSeis = new Produto("Batata frita", 9.50M);
+            Produto produtoSete = new Produto("Agua", 2.50M);
             _repositorioProduto.Inserir(produtoUm);
             _repositorioProduto.Inserir(produtoDois);
             _repositorioProduto.Inserir(produtoTres);
             _repositorioProduto.Inserir(produtoQuatro);
             _repositorioProduto.Inserir(produtoCinco);
             _repositorioProduto.Inserir(produtoSeis);
+            _repositorioProduto.Inserir(produtoSete);
 
             Pedido pedidoUm = new Pedido(produtoDois, 2);
             Pedido pedidoDois = new Pedido(produtoUm, 3);
@@ -195,9 +197,21 @@ namespace ControleDeBar.ConsoleApp
             contaUm.RegistrarPedido(produtoDois, 7);
 
             Conta contaDois = new Conta(mesaQuatro, garcomDois, DateTime.Now);
+            contaDois.RegistrarPedido(produtoDois, 4);
+            contaDois.RegistrarPedido(produtoQuatro, 1);
             Conta contaTres = new Conta(mesaTres, garcomTres, DateTime.Now);
+            contaTres.RegistrarPedido(produtoSete, 2);
+            contaTres.RegistrarPedido(produtoSeis, 4);
             Conta contaQuatro = new Conta(mesaUm, garcomQuatro, DateTime.Now);
+            contaQuatro.RegistrarPedido(produtoUm, 3);
+            contaQuatro.RegistrarPedido(produtoSeis, 3);
             Conta contaCinco = new Conta(mesaDois, garcomTres, DateTime.Now);
+            contaCinco.RegistrarPedido(produtoUm, 3);
+            contaCinco.RegistrarPedido(produtoDois, 3);
+            contaCinco.RegistrarPedido(produtoUm, 1);
+            contaCinco.RegistrarPedido(produtoSete, 2);
+            contaCinco.RegistrarPedido(produtoUm, 1);
+            contaCinco.RegistrarPedido(produtoSeis, 3);
             _repositorioConta.Inserir(contaUm);
             _repositorioConta.Inserir(contaDois);
             _repositorioConta.Inserir(contaTres);
@@ -214,8 +228,7 @@ namespace ControleDeBar.ConsoleApp
             Console.WriteLine("[1] Garçom");
             Console.WriteLine("[2] Mesa");
             Console.WriteLine("[3] Produto");
-            Console.WriteLine("[4] Pedido");
-            Console.WriteLine("[5] Conta\n");
+            Console.WriteLine("[4] Conta\n");
 
             Console.WriteLine("Digite [S] para Sair");
 
