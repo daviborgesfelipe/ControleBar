@@ -8,22 +8,16 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
     public class Mesa : EntidadeBase
     {
         public int numero;
-        public Garcom garcom;
-        public Mesa(int numero, Garcom garcom)
+        public bool ocupada;
+        public Mesa(int numero)
         {
             this.numero = numero;
-            this.garcom = garcom;
         }
 
         public override void AtualizarInformacoes(EntidadeBase registroAtualizado)
         {
             Mesa mesaAtualizado = (Mesa)registroAtualizado;
             this.numero = mesaAtualizado.numero;
-            this.garcom = mesaAtualizado.garcom;
-        }
-        public void AdicionarGarcomNaMesa(Garcom garcom)
-        {
-            this.garcom = garcom;
         }
         public override ArrayList Validar()
         {
@@ -34,6 +28,16 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
                 erros.Add("O campo \"numero\" é obrigatório");
             }
             return erros;
+        }
+
+        public void Desocupar()
+        {
+            ocupada = false;
+        }
+
+        public void Ocupar()
+        {
+            ocupada = true;
         }
     }
 }
