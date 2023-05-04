@@ -1,6 +1,4 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
-using ControleDeBar.ConsoleApp.ModuloMesa;
-using ControleDeBar.ConsoleApp.ModuloPedidos;
 using System;
 using System.Collections;
 
@@ -35,5 +33,6 @@ namespace ControleDeBar.ConsoleApp.ModuloGarcom
             string nome = Console.ReadLine();
             return new Garcom(nome);
         }
+
     }
 }
