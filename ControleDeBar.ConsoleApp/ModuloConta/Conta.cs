@@ -1,44 +1,54 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
+using ControleDeBar.ConsoleApp.ModuloGarcom;
 using ControleDeBar.ConsoleApp.ModuloMesa;
-using ControleDeBar.ConsoleApp.ModuloPedidos;
+using ControleDeBar.ConsoleApp.ModuloProdutos;
 using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloConta
 {
     public class Conta : EntidadeBase
     {
-        public Mesa mesa;
         public Pedido pedido;
+        public Mesa mesa;
+        public Garcom garcom;
         public double valorTotal;
         public string status;
+
+        public DateTime data;
+
         public ArrayList pedidos;
-        public Conta(Pedido pedido, Mesa mesa)
+        public Conta(Mesa mesa, Garcom garcom, DateTime dataAbertura)
         {
             this.mesa = mesa;
+            this.garcom = garcom;
+            this.data = dataAbertura;
             this.status = "Aberta";
+
             this.pedidos = new ArrayList();
-            this.valorTotal =+ (pedido.quantidade * pedido.produto.valor);
-            pedidos.Add(pedido);
+            Abrir();
         }
-        public void AdicionarPedidoNaLista(Pedido pedido)
+        public void PagarConta()
         {
-            if (this.pedidos.Count > 0)
+            Fechar();
+        }
+        public void RegistrarPedido(Produto produto, int quantidade)
+        {
+            Pedido novoPedido = new Pedido(produto, quantidade);
+            pedidos.Add(novoPedido);
+        }
+        public decimal CalcularValorTotal()
+        {
+            decimal total = 0;
+            foreach (Pedido pedido in pedidos)
             {
-                this.pedidos.Add(pedido);
+                decimal totalPedido = pedido.SomarValoresDosPedidos();
+                total += totalPedido;
             }
-            else
-            {
-                this.pedido = pedido;
-                this.pedidos.Add(this.pedido);
-            }
+            return total;
         }
         public void SomarValoresDosPedidos(Pedido pedido)
         {
             this.valorTotal =+ pedido.valorTotal;
-        }
-        public void PagarConta()
-        {
-            this.status = "Pago";
         }
         public override void AtualizarInformacoes(EntidadeBase registroAtualizado)
         {
@@ -52,10 +62,27 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
         {
             ArrayList erros = new ArrayList();
 
-            if (pedido == null)
-                erros.Add("O campo \"produtos\" é obrigatório");
+            if (garcom == null)
+            {
+                erros.Add("O campo \"Garçom\" é obrigatorio");
+            }
+
+            if (mesa == null)
+            {
+                erros.Add("O campo \"Mesa\" é obrigatorio");
+            }
 
             return erros;
+        }
+        private void Abrir()
+        {
+            status = "Aberta";
+            mesa.Ocupar();
+        }
+        private void Fechar()
+        {
+            status = "Pago";
+            mesa.Desocupar();
         }
     }
 }
