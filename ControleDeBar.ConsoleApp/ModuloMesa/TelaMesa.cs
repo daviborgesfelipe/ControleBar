@@ -23,7 +23,7 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
                     FORMATO_TABELA,
                     mesa.id,
                     mesa.numero,
-                    mesa.ocupada
+                    mesa.status
                     );
             }
         }

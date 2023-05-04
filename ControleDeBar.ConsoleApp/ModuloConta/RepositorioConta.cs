@@ -1,4 +1,5 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
+using ControleDeBar.ConsoleApp.Compartilhado.Enums;
 using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloConta
@@ -19,7 +20,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 
             foreach (Conta conta in listaRegistros)
             {
-                if (conta.status == "Aberta")
+                if (conta.status == StatusConta.Aberto)
                 {
                     contasEmAberto.Add(conta);
                 }
@@ -28,16 +29,16 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
         }
         public ArrayList SelecionarContasFechadas(DateTime data)
         {
-            ArrayList contasEmAberto = new ArrayList();
+            ArrayList contasFechadas = new ArrayList();
 
             foreach (Conta conta in listaRegistros)
             {
-                if (conta.status == "Pago" && conta.data.Date == data.Date)
+                if (conta.status == StatusConta.Pago && conta.data.Date == data.Date)
                 {
-                    contasEmAberto.Add(conta);
+                    contasFechadas.Add(conta);
                 }
             }
-            return contasEmAberto;
+            return contasFechadas;
         }
     }
 }
