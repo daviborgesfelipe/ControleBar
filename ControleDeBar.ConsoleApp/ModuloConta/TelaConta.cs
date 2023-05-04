@@ -3,6 +3,7 @@ using ControleDeBar.ConsoleApp.ModuloGarcom;
 using ControleDeBar.ConsoleApp.ModuloMesa;
 using ControleDeBar.ConsoleApp.ModuloProdutos;
 using System.Collections;
+using System.Runtime.ConstrainedExecution;
 
 namespace ControleDeBar.ConsoleApp.ModuloConta
 {
@@ -94,16 +95,29 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 
         protected override void MostrarTabela(ArrayList registros)
         {
+            Console.WriteLine("--------------------------------------------------------------------------------------\n");
             foreach (Conta conta in registros)
             {
-                Console.WriteLine("Conta: " + conta.id + ", Mesa: " + conta.mesa.numero + ", Garçom: " + conta.garcom.nome);
-                Console.WriteLine();
+                const string FORMATO_TABELA_CONTA = "{0, -10} | {1, -14} | {2, -25} |";
+                const string FORMATO_TABELA_PEDIDO = "{0, -10} | {1, -40} | {2, -10} | {3}";
+                const string FORMATO_TABELA_RODAPE = "{0, -55} | {1}";
+                Console.Write(FORMATO_TABELA_CONTA, $" Conta: {conta.id}", $" Mesa: {conta.mesa.numero}", $" Garçom: {conta.garcom.nome}");
+                if (conta.status == "Aberta")
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                }
+                Console.WriteLine($" Status: {conta.status}");
+                Console.ResetColor();
                 foreach (Pedido pedido in conta.pedidos)
                 {
-                    Console.WriteLine("\tProduto: " + pedido.produto.nome + ", Qtd: " + pedido.quantidade);
+                    Console.WriteLine(FORMATO_TABELA_PEDIDO, $" {null}", $"\tProduto: {pedido.produto.nome}", $" Qtd: {pedido.quantidade}", $"Total: R${pedido.SomarValoresDosPedidos()}");
                 }
-
-                Console.WriteLine("------------------------------------------------------\n");
+                Console.WriteLine(FORMATO_TABELA_RODAPE, $"{null}", $" TotalConta: R${conta.CalcularValorTotal()}");
+                Console.WriteLine("--------------------------------------------------------------------------------------\n");
             }
         }
         protected override EntidadeBase ObterRegistro()
@@ -124,21 +138,21 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
         private Conta ObterConta()
         {
             VisualizarRegistros(false);
-            Conta conta = (Conta)telaMesa.EncontrarRegistro("Digite o id da Conta");
+            Conta conta = (Conta)EncontrarRegistro("Digite o id da Conta: ");
             Console.WriteLine();
             return conta;
         }
         private Mesa ObterMesa()
         {
             telaMesa.VisualizarRegistros(false);
-            Mesa mesa = (Mesa)telaMesa.EncontrarRegistro("Digite o id da Mesa");
+            Mesa mesa = (Mesa)telaMesa.EncontrarRegistro("Digite o id da Mesa: ");
             Console.WriteLine();
             return mesa;
         }
         private Garcom ObterGarcom()
         {
             telaGarcom.VisualizarRegistros(false);
-            Garcom garcom = (Garcom)telaGarcom.EncontrarRegistro("Digite o id do Garçom");
+            Garcom garcom = (Garcom)telaGarcom.EncontrarRegistro("Digite o id do Garçom: ");
             Console.WriteLine();
             return garcom;
         }
