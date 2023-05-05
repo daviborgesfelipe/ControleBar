@@ -54,9 +54,9 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             this.pedido = produtoAtualizado.pedido;
             this.mesa = produtoAtualizado.mesa;
         }
-        public override ArrayList Validar()
+        public override List<string> Validar()
         {
-            ArrayList erros = new ArrayList();
+            List<string> erros = new List<string>();
             if (garcom == null)
             {
                 erros.Add("O campo \"Garçom\" é obrigatorio");
