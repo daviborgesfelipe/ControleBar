@@ -15,15 +15,13 @@ namespace ControleDeBar.ConsoleApp.ModuloProdutos
         public override void AtualizarInformacoes(EntidadeBase registroAtualizado)
         {
             Produto produtoAtualizado = (Produto)registroAtualizado;
-
             this.nome = produtoAtualizado.nome;
             this.valor = produtoAtualizado.valor;
         }
 
-        public override ArrayList Validar()
+        public override List<string> Validar()
         {
-            ArrayList erros = new ArrayList();
-
+            List<string> erros = new List<string>();
             if (string.IsNullOrEmpty(nome.Trim()))
             {
                 erros.Add("O campo \"nome\" é obrigatório");
@@ -32,7 +30,6 @@ namespace ControleDeBar.ConsoleApp.ModuloProdutos
             {
                 erros.Add("O campo \"valor\" é obrigatório");
             }
-
             return erros;
         }
     }

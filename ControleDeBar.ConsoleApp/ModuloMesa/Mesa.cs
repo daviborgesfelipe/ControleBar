@@ -6,22 +6,16 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
 {
     public class Mesa : EntidadeBase
     {
-        public int numero;
+        public string numero;
         public StatusMesa status;
-        public Mesa(int numero)
+        public Mesa(string numero)
         {
+            this.status = StatusMesa.Disponivel;
             this.numero = numero;
         }
-
-        public override void AtualizarInformacoes(EntidadeBase registroAtualizado)
+        public override List<string> Validar()
         {
-            Mesa mesaAtualizado = (Mesa)registroAtualizado;
-            this.numero = mesaAtualizado.numero;
-        }
-        public override ArrayList Validar()
-        {
-            ArrayList erros = new ArrayList();
-
+            List<string> erros = new List<string>();
             if (this.numero == null)
             {
                 erros.Add("O campo \"numero\" é obrigatório");
@@ -37,6 +31,12 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
         public void Ocupar()
         {
             status = StatusMesa.Ocupada;
+        }
+
+        public override void AtualizarInformacoes(EntidadeBase registroAtualizado)
+        {
+            Mesa mesaAtualizado = (Mesa)registroAtualizado;
+            this.numero = mesaAtualizado.numero;
         }
     }
 }
