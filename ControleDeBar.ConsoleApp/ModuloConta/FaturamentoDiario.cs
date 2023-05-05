@@ -4,10 +4,11 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 {
     internal class FaturamentoDiario
     {
-        private ArrayList contasFechadas;
-        public FaturamentoDiario(ArrayList contas)
+        private List<Conta> contasFechadas;
+        public FaturamentoDiario(List<Conta> contas)
         {
-            this.contasFechadas = contas;
+            this.contasFechadas = new List<Conta>();
+            contasFechadas.AddRange(contas);
         }
         public decimal CalcularTotal()
         {
