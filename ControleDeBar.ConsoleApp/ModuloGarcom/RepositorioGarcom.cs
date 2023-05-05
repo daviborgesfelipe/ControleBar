@@ -3,15 +3,15 @@ using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloGarcom
 {
-    public class RepositorioGarcom : RepositorioBase
+    public class RepositorioGarcom : RepositorioBase<Garcom>
     {
-        public RepositorioGarcom(ArrayList listaGarcom)
+        public RepositorioGarcom(List<Garcom> lista)
         {
-            this.listaRegistros = listaGarcom;
+            this.listaRegistros = lista;
         }
         public override Garcom SelecionarPorId(int id)
         {
-            return (Garcom)base.SelecionarPorId(id);
+            return base.SelecionarPorId(id);
         }
     }
 }

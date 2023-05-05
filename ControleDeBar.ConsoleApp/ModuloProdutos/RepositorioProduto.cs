@@ -3,15 +3,15 @@ using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloProdutos
 {
-    public class RepositorioProduto : RepositorioBase
+    public class RepositorioProduto : RepositorioBase<Produto>
     {
-        public RepositorioProduto(ArrayList listaProduto)
+        public RepositorioProduto(List<Produto> lista)
         {
-            this.listaRegistros = listaProduto;
+            this.listaRegistros = lista;
         }
         public override Produto SelecionarPorId(int id)
         {
-            return (Produto)base.SelecionarPorId(id);
+            return base.SelecionarPorId(id);
         }
     }
 }

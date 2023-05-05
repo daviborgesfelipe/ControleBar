@@ -1,18 +1,19 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
 using ControleDeBar.ConsoleApp.ModuloGarcom;
+using ControleDeBar.ConsoleApp.ModuloProdutos;
 using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloMesa
 {
-    public class RepositorioMesa : RepositorioBase
+    public class RepositorioMesa : RepositorioBase<Mesa>
     {
-        public RepositorioMesa(ArrayList listaMesa)
+        public RepositorioMesa(List<Mesa> lista)
         {
-            this.listaRegistros = listaMesa;
+            this.listaRegistros = lista;
         }
         public override Mesa SelecionarPorId(int id)
         {
-            return (Mesa)base.SelecionarPorId(id);
+            return base.SelecionarPorId(id);
         }
     }
 }
