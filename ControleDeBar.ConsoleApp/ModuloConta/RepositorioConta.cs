@@ -4,20 +4,15 @@ using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloConta
 {
-    public class RepositorioConta : RepositorioBase
+    public class RepositorioConta : RepositorioBase<Conta>
     {
-        public RepositorioConta(ArrayList _repositorioConta)
-        {
-            this.listaRegistros = _repositorioConta;
-        }
         public override Conta SelecionarPorId(int id)
         {
-            return (Conta)base.SelecionarPorId(id);
+            return base.SelecionarPorId(id);
         }
-        public ArrayList SelecionarContasEmAberto()
+        public List<Conta> SelecionarContasEmAberto()
         {
-            ArrayList contasEmAberto = new ArrayList();
-
+            List<Conta> contasEmAberto = new List<Conta>();
             foreach (Conta conta in listaRegistros)
             {
                 if (conta.status == StatusConta.Aberto)
@@ -27,10 +22,9 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             }
             return contasEmAberto;
         }
-        public ArrayList SelecionarContasFechadas(DateTime data)
+        public List<Conta> SelecionarContasFechadas(DateTime data)
         {
-            ArrayList contasFechadas = new ArrayList();
-
+            List<Conta> contasFechadas = new List<Conta>();
             foreach (Conta conta in listaRegistros)
             {
                 if (conta.status == StatusConta.Pago && conta.data.Date == data.Date)
