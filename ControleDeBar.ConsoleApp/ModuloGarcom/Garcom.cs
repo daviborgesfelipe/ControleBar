@@ -15,10 +15,9 @@ namespace ControleDeBar.ConsoleApp.ModuloGarcom
             Garcom garcomAtualizado = (Garcom)registroAtualizado;
             this.nome = garcomAtualizado.nome;
         }
-
-        public override ArrayList Validar()
+        public override List<string> Validar()
         {
-            ArrayList erros = new ArrayList();
+            List<string> erros = new List<string>();
             if (string.IsNullOrEmpty(nome.Trim()))
             {
                 erros.Add("O campo \"nome\" é obrigatório");
