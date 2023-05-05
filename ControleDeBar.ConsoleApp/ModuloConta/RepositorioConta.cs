@@ -6,6 +6,10 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 {
     public class RepositorioConta : RepositorioBase<Conta>
     {
+        public RepositorioConta(List<Conta> lista)
+        {
+                this.listaRegistros = lista;
+        }
         public override Conta SelecionarPorId(int id)
         {
             return base.SelecionarPorId(id);
