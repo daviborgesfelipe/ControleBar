@@ -2,12 +2,12 @@
 
 namespace ControleDeBar.ConsoleApp.Compartilhado
 {
-    public abstract class TelaBase
+    public abstract class TelaBase <T> where T : EntidadeBase
     {
         public string nomeEntidade;
         public string sufixo;
 
-        protected RepositorioBase repositorioBase = null;
+        protected RepositorioBase<T> repositorioBase = null;
 
         public void MostrarCabecalho(string titulo, string subtitulo)
         {
@@ -41,7 +41,7 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
                 $"Cadastro de {nomeEntidade}{sufixo}",
                 "Inserindo um novo registro..."
                 );
-            EntidadeBase registro = ObterRegistro();
+            T registro = ObterRegistro();
             if (TemErrosDeValidacao(registro))
             {
                 InserirNovoRegistro(); //chamada recursiva
@@ -62,7 +62,7 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
                     $"Visualizando registros de {nomeEntidade}{sufixo} já cadastrados..."
                     );
             }
-            ArrayList registros = repositorioBase.SelecionarTodos();
+            List<T> registros = repositorioBase.SelecionarTodos();
             if (registros.Count == 0)
             {
                 MostrarMensagem(
@@ -80,8 +80,8 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
                 );
             VisualizarRegistros(false);
             Console.WriteLine();
-            EntidadeBase registro = EncontrarEntidade($"Digite o id do registro de {nomeEntidade}: ");
-            EntidadeBase registroAtualizado = ObterRegistro();
+            T registro = EncontrarEntidade($"Digite o id do registro de {nomeEntidade}: ");
+            T registroAtualizado = ObterRegistro();
             if (TemErrosDeValidacao(registroAtualizado))
             {
                 EditarRegistro();
@@ -100,17 +100,17 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
                 );
             VisualizarRegistros(false);
             Console.WriteLine();
-            EntidadeBase registro = EncontrarEntidade("Digite o id do registro: ");
+            T registro = EncontrarEntidade("Digite o id do registro: ");
             repositorioBase.Excluir(registro);
             MostrarMensagem(
                 $"Registro de {nomeEntidade} excluído com sucesso!",
                 ConsoleColor.DarkGreen
                 );
         }      
-        public virtual EntidadeBase EncontrarEntidade(string textoCampo)
+        public virtual T EncontrarEntidade(string textoCampo)
         {            
             bool idInvalido;
-            EntidadeBase entidadeSelecionada = null;
+            T entidadeSelecionada = null;
             do
             {
                 idInvalido = false;
@@ -140,10 +140,10 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
             return entidadeSelecionada;
         }
 
-        protected bool TemErrosDeValidacao(EntidadeBase registro)
+        protected bool TemErrosDeValidacao(T registro)
         {
             bool temErros = false;
-            ArrayList erros = registro.Validar();
+            List<string> erros = registro.Validar();
             if (erros.Count > 0)
             {
                 temErros = true;
@@ -157,7 +157,7 @@ namespace ControleDeBar.ConsoleApp.Compartilhado
             }
             return temErros;
         }
-        protected abstract EntidadeBase ObterRegistro();
-        protected abstract void MostrarTabela(ArrayList registros);
+        protected abstract T ObterRegistro();
+        protected abstract void MostrarTabela(List<T> registros);
     }
 }
