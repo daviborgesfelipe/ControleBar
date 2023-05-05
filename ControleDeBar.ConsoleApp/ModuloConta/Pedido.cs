@@ -25,10 +25,9 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 
             produto = produtoAtualizado.produto;
         }
-
-        public override ArrayList Validar()
+        public override List<string> Validar()
         {
-            ArrayList erros = new ArrayList();
+            List<string> erros = new List<string>();
 
             return erros;
         }
