@@ -3,36 +3,25 @@ using ControleDeBar.ConsoleApp.Compartilhado.Enums;
 using ControleDeBar.ConsoleApp.ModuloGarcom;
 using ControleDeBar.ConsoleApp.ModuloMesa;
 using ControleDeBar.ConsoleApp.ModuloProdutos;
-using System.Collections;
-using System.Runtime.ConstrainedExecution;
 
 namespace ControleDeBar.ConsoleApp.ModuloConta
 {
-    public class TelaConta : TelaBase
+    public class TelaConta<TConta> : TelaBase<Conta>
     {
-        RepositorioMesa repositorioMesa;
-        RepositorioGarcom repositorioGarcom;
         RepositorioConta repositorioConta;
-        RepositorioProduto repositorioProduto;
-        TelaMesa telaMesa;
-        TelaGarcom telaGarcom;
-        TelaProduto telaProduto;
+        TelaMesa<Mesa> telaMesa;
+        TelaGarcom<Garcom> telaGarcom;
+        TelaProduto<Produto> telaProduto;
 
         public TelaConta(
             RepositorioConta _repositorioConta,
-            RepositorioMesa _repositorioMesa,
-            RepositorioGarcom _repositorioGarcom,
-            RepositorioProduto _repositorioProduto,
-            TelaMesa _telaMesa,
-            TelaGarcom _telaGarcom,
-            TelaProduto _telaProduto
+            TelaMesa<Mesa> _telaMesa,
+            TelaGarcom<Garcom> _telaGarcom,
+            TelaProduto<Produto> _telaProduto
             )
         {
             this.repositorioBase = _repositorioConta;
             this.repositorioConta = _repositorioConta;
-            this.repositorioMesa = _repositorioMesa;
-            this.repositorioGarcom = _repositorioGarcom;
-            this.repositorioProduto = _repositorioProduto;
             this.telaMesa = _telaMesa;
             this.telaGarcom = _telaGarcom;
             this.telaProduto = _telaProduto;
@@ -72,7 +61,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
                 $"Cadastro de {nomeEntidade}{sufixo}",
                 "Visualizando contas em aberto..."
                 );
-            ArrayList contasEmAberto = repositorioConta.SelecionarContasEmAberto();
+            List<Conta> contasEmAberto = repositorioConta.SelecionarContasEmAberto();
             if (contasEmAberto.Count == 0)
             {
                 MostrarMensagem(
@@ -95,7 +84,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             {
                 return;
             }
-            Conta contaSelecionada = (Conta)EncontrarEntidade("Digite o id da Conta: ");
+            Conta contaSelecionada = EncontrarEntidade("Digite o id da Conta: ");
             Console.WriteLine("[1] Adicionar pedidos");
             Console.WriteLine("[2] Remover pedidos");
             string opcao = Console.ReadLine();
@@ -116,7 +105,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
                 );
             Console.WriteLine("Digite a data: ");
             DateTime data = Convert.ToDateTime(Console.ReadLine());
-            ArrayList contasFechadasNoDia = repositorioConta.SelecionarContasFechadas(data);
+            List<Conta> contasFechadasNoDia = repositorioConta.SelecionarContasFechadas(data);
             FaturamentoDiario faturamentoDiario = new FaturamentoDiario(contasFechadasNoDia);
             decimal totalFaturado = faturamentoDiario.CalcularTotal();
             Console.WriteLine("Contas fechadas na data: " + data.ToShortDateString());
@@ -124,11 +113,10 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             Console.WriteLine();
             MostrarMensagem(
                 "Total faturado: " + totalFaturado,
-                ConsoleColor.DarkGreen
-                );
+                ConsoleColor.DarkGreen);
         }
 
-        protected override EntidadeBase ObterRegistro()
+        protected override Conta ObterRegistro()
         {
             Mesa mesa = ObterMesa();
             Garcom garcom = ObterGarcom();
@@ -136,7 +124,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             Conta conta = new Conta(mesa, garcom, dataAbertura);
             return conta;
         }
-        protected override void MostrarTabela(ArrayList registros)
+        protected override void MostrarTabela(List<Conta> registros)
         {
             Console.WriteLine("--------------------------------------------------------------------------------------\n");
             foreach (Conta conta in registros)
@@ -166,18 +154,32 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 
         private void AdicionarPedidos(Conta contaSelecionada)
         {
-            Console.WriteLine("Selecionar produtos? [S] ou [N]");
-            Console.WriteLine(" -> ");
+            MostrarMensagem(
+                "Selecionar produtos? [S] ou [N]",
+                ConsoleColor.White
+                );
+            MostrarMensagem(
+                " -> ",
+                ConsoleColor.White
+                );
             string opcao = Console.ReadLine();
             while (opcao == "s" || opcao == "S" || opcao == "Sim" || opcao == "SIM" || opcao == "sim")
             {
                 Produto produto = ObterProduto();
-                Console.WriteLine("Digite a quantidade: ");
-                Console.WriteLine();
+                MostrarMensagem(
+                    "Digite a quantidade: ",
+                    ConsoleColor.White
+                    );
                 int quantidade = Convert.ToInt32(Console.ReadLine());
                 contaSelecionada.RegistrarPedido(produto, quantidade);
-                Console.WriteLine("Selecionar mais produtos? [S] ou [N]");
-                Console.Write(" -> ");
+                MostrarMensagem(
+                    "Selecionar mais produtos? [S] ou [N]",
+                    ConsoleColor.White
+                    );
+                MostrarMensagem(
+                    " -> ",
+                    ConsoleColor.White
+                    );
                 opcao = Console.ReadLine();
             }
         }
@@ -195,38 +197,35 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
         }
         private DateTime ObterDataAbertura()
         {
-            MostrarMensagem(
-                "Digite a data: ",
-                ConsoleColor.White
-                );
+            Console.WriteLine("Digite a data: ");
             DateTime dataAbertura = Convert.ToDateTime(Console.ReadLine());
             return dataAbertura;
         }
         private Conta ObterConta()
         {
             VisualizarRegistros(false);
-            Conta conta = (Conta)EncontrarEntidade("Digite o id da Conta: ");
+            Conta conta = EncontrarEntidade("Digite o id da Conta: ");
             Console.WriteLine();
             return conta;
         }
         private Mesa ObterMesa()
         {
             telaMesa.VisualizarRegistros(false);
-            Mesa mesa = (Mesa)telaMesa.EncontrarEntidade("Digite o id da Mesa: ");
+            Mesa mesa = telaMesa.EncontrarEntidade("Digite o id da Mesa: ");
             Console.WriteLine();
             return mesa;
         }
         private Garcom ObterGarcom()
         {
             telaGarcom.VisualizarRegistros(false);
-            Garcom garcom = (Garcom)telaGarcom.EncontrarEntidade("Digite o id do Garçom: ");
+            Garcom garcom = telaGarcom.EncontrarEntidade("Digite o id do Garçom: ");
             Console.WriteLine();
             return garcom;
         }
         private Produto ObterProduto()
         {
             telaProduto.VisualizarRegistros(false);
-            Produto produto = (Produto)telaProduto.EncontrarEntidade("Digite o id do Produto: ");
+            Produto produto = telaProduto.EncontrarEntidade("Digite o id do Produto: ");
             Console.WriteLine();
             return produto;
         }
