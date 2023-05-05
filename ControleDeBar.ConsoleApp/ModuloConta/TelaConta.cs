@@ -6,18 +6,18 @@ using ControleDeBar.ConsoleApp.ModuloProdutos;
 
 namespace ControleDeBar.ConsoleApp.ModuloConta
 {
-    public class TelaConta<TConta> : TelaBase<Conta>
+    public class TelaConta : TelaBase<Conta, RepositorioConta>
     {
         RepositorioConta repositorioConta;
-        TelaMesa<Mesa> telaMesa;
-        TelaGarcom<Garcom> telaGarcom;
-        TelaProduto<Produto> telaProduto;
+        TelaMesa telaMesa;
+        TelaGarcom telaGarcom;
+        TelaProduto telaProduto;
 
         public TelaConta(
             RepositorioConta _repositorioConta,
-            TelaMesa<Mesa> _telaMesa,
-            TelaGarcom<Garcom> _telaGarcom,
-            TelaProduto<Produto> _telaProduto
+            TelaMesa _telaMesa,
+            TelaGarcom _telaGarcom,
+            TelaProduto _telaProduto
             )
         {
             this.repositorioBase = _repositorioConta;
@@ -50,10 +50,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
                 );
             Conta conta = ObterConta();
             conta.PagarConta();
-            MostrarMensagem(
-                $"{nomeEntidade} paga com sucesso!",
-                ConsoleColor.DarkGreen
-                );
+            MostrarMensagemSucesso($"{nomeEntidade} paga com sucesso!");
         }
         internal bool VisualizarContasAbertas()
         {
@@ -64,14 +61,27 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             List<Conta> contasEmAberto = repositorioConta.SelecionarContasEmAberto();
             if (contasEmAberto.Count == 0)
             {
-                MostrarMensagem(
-                    "Nenhuma conta em aberto",
-                    ConsoleColor.DarkYellow
-                    );
+                MostrarMensagemAtencao("Nenhuma conta em aberto");
                 return false;
             }
             MostrarTabela(contasEmAberto);
             return contasEmAberto.Count > 0;
+        }
+        internal void VisualizarFaturamentoDoDia()
+        {
+            MostrarCabecalho(
+                $"Cadastro de {nomeEntidade}{sufixo}",
+                "Visualizando faturamento do dia..."
+                );
+            Console.WriteLine("Digite a data: ");
+            DateTime data = Convert.ToDateTime(Console.ReadLine());
+            List<Conta> contasFechadasNoDia = repositorioConta.SelecionarContasFechadas(data);
+            FaturamentoDiario faturamentoDiario = new FaturamentoDiario(contasFechadasNoDia);
+            decimal totalFaturado = faturamentoDiario.CalcularTotal();
+            Console.WriteLine("Contas fechadas na data: " + data.ToShortDateString());
+            MostrarTabela(contasFechadasNoDia);
+            Console.WriteLine();
+            MostrarMensagemSucesso("Total faturado: " + totalFaturado);
         }
         internal void RegistrarPedidos()
         {
@@ -96,24 +106,6 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             {
                 RemoverPedidos(contaSelecionada);
             }
-        }
-        internal void VisualizarFaturamentoDoDia()
-        {
-            MostrarCabecalho(
-                $"Cadastro de {nomeEntidade}{sufixo}",
-                "Visualizando faturamento do dia..."
-                );
-            Console.WriteLine("Digite a data: ");
-            DateTime data = Convert.ToDateTime(Console.ReadLine());
-            List<Conta> contasFechadasNoDia = repositorioConta.SelecionarContasFechadas(data);
-            FaturamentoDiario faturamentoDiario = new FaturamentoDiario(contasFechadasNoDia);
-            decimal totalFaturado = faturamentoDiario.CalcularTotal();
-            Console.WriteLine("Contas fechadas na data: " + data.ToShortDateString());
-            MostrarTabela(contasFechadasNoDia);
-            Console.WriteLine();
-            MostrarMensagem(
-                "Total faturado: " + totalFaturado,
-                ConsoleColor.DarkGreen);
         }
 
         protected override Conta ObterRegistro()
@@ -154,32 +146,17 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
 
         private void AdicionarPedidos(Conta contaSelecionada)
         {
-            MostrarMensagem(
-                "Selecionar produtos? [S] ou [N]",
-                ConsoleColor.White
-                );
-            MostrarMensagem(
-                " -> ",
-                ConsoleColor.White
-                );
+            Console.WriteLine("Selecionar produtos? [S] ou [N]");
+            Console.WriteLine(" -> ");
             string opcao = Console.ReadLine();
             while (opcao == "s" || opcao == "S" || opcao == "Sim" || opcao == "SIM" || opcao == "sim")
             {
                 Produto produto = ObterProduto();
-                MostrarMensagem(
-                    "Digite a quantidade: ",
-                    ConsoleColor.White
-                    );
+                Console.WriteLine("Digite a quantidade: ");
                 int quantidade = Convert.ToInt32(Console.ReadLine());
                 contaSelecionada.RegistrarPedido(produto, quantidade);
-                MostrarMensagem(
-                    "Selecionar mais produtos? [S] ou [N]",
-                    ConsoleColor.White
-                    );
-                MostrarMensagem(
-                    " -> ",
-                    ConsoleColor.White
-                    );
+                Console.WriteLine("Selecionar mais produtos? [S] ou [N]");
+                Console.WriteLine(" -> ");
                 opcao = Console.ReadLine();
             }
         }
@@ -188,10 +165,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             int id = 0;
             if (contaSelecionada.pedidos.Count == 0)
             {
-                MostrarMensagem(
-                    "Nenhum pedido cadastrado para esta conta",
-                    ConsoleColor.DarkYellow
-                    );
+                MostrarMensagemAtencao("Nenhum pedido cadastrado para esta conta");
                 return;
             }
         }

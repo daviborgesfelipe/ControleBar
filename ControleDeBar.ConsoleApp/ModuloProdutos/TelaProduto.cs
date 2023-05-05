@@ -1,10 +1,10 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
 using ControleDeBar.ConsoleApp.ModuloGarcom;
-using System.Collections;
+using ControleDeBar.ConsoleApp.Compartilhado.Interface;
 
 namespace ControleDeBar.ConsoleApp.ModuloProdutos
 {
-    public class TelaProduto<TProduto> : TelaBase<Produto>
+    public class TelaProduto : TelaBase<Produto, RepositorioProduto>
     {
         public TelaProduto(RepositorioProduto _repositorioProduto)
         {

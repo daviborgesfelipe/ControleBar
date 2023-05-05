@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloMesa
 {
-    public class TelaMesa<TMesa> : TelaBase<Mesa>
+    public class TelaMesa : TelaBase<Mesa, RepositorioMesa>
     {
 
         public TelaMesa(RepositorioMesa _repositorioMesa)

@@ -1,9 +1,10 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
+using ControleDeBar.ConsoleApp.Compartilhado.Interface;
 using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloProdutos
 {
-    public class Produto : EntidadeBase
+    public class Produto : EntidadeBase<Produto>
     {
         public string nome;
         public decimal valor;
@@ -12,11 +13,10 @@ namespace ControleDeBar.ConsoleApp.ModuloProdutos
             this.nome = nome;
             this.valor = valor;
         }
-        public override void AtualizarInformacoes(EntidadeBase registroAtualizado)
+        public override void AtualizarInformacoes(Produto registroAtualizado)
         {
-            Produto produtoAtualizado = (Produto)registroAtualizado;
-            this.nome = produtoAtualizado.nome;
-            this.valor = produtoAtualizado.valor;
+            this.nome = registroAtualizado.nome;
+            this.valor = registroAtualizado.valor;
         }
 
         public override List<string> Validar()

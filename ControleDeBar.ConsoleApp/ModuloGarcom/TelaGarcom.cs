@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloGarcom
 {
-    public class TelaGarcom<TGarcom> : TelaBase<Garcom>
+    public class TelaGarcom : TelaBase<Garcom, RepositorioGarcom>
     {
         public TelaGarcom(RepositorioGarcom _repositorioGarcom)
         {

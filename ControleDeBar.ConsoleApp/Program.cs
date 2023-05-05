@@ -18,10 +18,10 @@ namespace ControleDeBar.ConsoleApp
             RepositorioProduto _repositorioProduto = new RepositorioProduto(new List<Produto>());
             RepositorioConta _repositorioConta = new RepositorioConta(new List<Conta>());
 
-            TelaProduto<Produto> _telaProduto = new TelaProduto<Produto>(_repositorioProduto);
-            TelaGarcom<Garcom> _telaGarcom = new TelaGarcom<Garcom>(_repositorioGarcom);
-            TelaMesa<Mesa> _telaMesa = new TelaMesa<Mesa>(_repositorioMesa);
-            TelaConta<Conta> _telaConta = new TelaConta<Conta>(
+            TelaProduto _telaProduto = new TelaProduto(_repositorioProduto);
+            TelaGarcom _telaGarcom = new TelaGarcom(_repositorioGarcom);
+            TelaMesa _telaMesa = new TelaMesa(_repositorioMesa);
+            TelaConta _telaConta = new TelaConta(
                 _repositorioConta,
                 _telaMesa,
                 _telaGarcom,

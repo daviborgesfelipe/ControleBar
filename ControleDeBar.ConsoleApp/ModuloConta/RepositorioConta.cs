@@ -1,6 +1,5 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
 using ControleDeBar.ConsoleApp.Compartilhado.Enums;
-using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloConta
 {
@@ -9,10 +8,6 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
         public RepositorioConta(List<Conta> lista)
         {
                 this.listaRegistros = lista;
-        }
-        public override Conta SelecionarPorId(int id)
-        {
-            return base.SelecionarPorId(id);
         }
         public List<Conta> SelecionarContasEmAberto()
         {

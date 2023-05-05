@@ -3,16 +3,15 @@ using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloGarcom
 {
-    public class Garcom : EntidadeBase
+    public class Garcom : EntidadeBase<Garcom>
     {
         public string nome;
         public Garcom(string nome)
         {
             this.nome = nome;
         }
-        public override void AtualizarInformacoes(EntidadeBase registroAtualizado)
+        public override void AtualizarInformacoes(Garcom garcomAtualizado)
         {
-            Garcom garcomAtualizado = (Garcom)registroAtualizado;
             this.nome = garcomAtualizado.nome;
         }
         public override List<string> Validar()

@@ -1,5 +1,4 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
-using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloProdutos
 {
@@ -8,10 +7,6 @@ namespace ControleDeBar.ConsoleApp.ModuloProdutos
         public RepositorioProduto(List<Produto> lista)
         {
             this.listaRegistros = lista;
-        }
-        public override Produto SelecionarPorId(int id)
-        {
-            return base.SelecionarPorId(id);
         }
     }
 }

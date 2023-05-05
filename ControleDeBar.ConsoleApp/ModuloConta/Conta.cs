@@ -1,5 +1,6 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
 using ControleDeBar.ConsoleApp.Compartilhado.Enums;
+using ControleDeBar.ConsoleApp.Compartilhado.Interface;
 using ControleDeBar.ConsoleApp.ModuloGarcom;
 using ControleDeBar.ConsoleApp.ModuloMesa;
 using ControleDeBar.ConsoleApp.ModuloProdutos;
@@ -7,17 +8,16 @@ using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloConta
 {
-    public class Conta : EntidadeBase
+    public class Conta : EntidadeBase<Conta>
     {
         public Pedido pedido;
         public Mesa mesa;
         public Garcom garcom;
         public double valorTotal;
         public StatusConta status;
-
         public DateTime data;
+        public List<Pedido> pedidos;
 
-        public ArrayList pedidos;
         public Conta(Mesa _mesa, Garcom _garcom, DateTime _dataAbertura)
         {
             this.mesa = _mesa;
@@ -25,7 +25,7 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             this.data = _dataAbertura;
             this.status = StatusConta.Aberto;
 
-            this.pedidos = new ArrayList();
+            this.pedidos = new List<Pedido>();
             Abrir();
         }
         public void PagarConta()
@@ -47,12 +47,10 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             }
             return total;
         }
-        public override void AtualizarInformacoes(EntidadeBase registroAtualizado)
+        public override void AtualizarInformacoes(Conta contaAtualizada)
         {
-            Conta produtoAtualizado = (Conta)registroAtualizado;
-
-            this.pedido = produtoAtualizado.pedido;
-            this.mesa = produtoAtualizado.mesa;
+            this.pedido = contaAtualizada.pedido;
+            this.mesa = contaAtualizada.mesa;
         }
         public override List<string> Validar()
         {
@@ -67,12 +65,12 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             }
             return erros;
         }
-        private void Abrir()
+        public void Abrir()
         {
             status = StatusConta.Aberto;
             mesa.Ocupar();
         }
-        private void Fechar()
+        public void Fechar()
         {
             status = StatusConta.Pago;
             mesa.Desocupar();

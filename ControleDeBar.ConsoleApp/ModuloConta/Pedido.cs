@@ -1,10 +1,11 @@
 ﻿using ControleDeBar.ConsoleApp.Compartilhado;
+using ControleDeBar.ConsoleApp.Compartilhado.Interface;
 using ControleDeBar.ConsoleApp.ModuloProdutos;
 using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloConta
 {
-    public class Pedido : EntidadeBase
+    public class Pedido : EntidadeBase<Pedido>
     {
         public Produto produto;
         public int quantidade;
@@ -19,11 +20,9 @@ namespace ControleDeBar.ConsoleApp.ModuloConta
             decimal resultado = quantidade * produto.valor;
             return resultado;
         }
-        public override void AtualizarInformacoes(EntidadeBase registroAtualizado)
+        public override void AtualizarInformacoes(Pedido registroAtualizado)
         {
-            Pedido produtoAtualizado = (Pedido)registroAtualizado;
-
-            produto = produtoAtualizado.produto;
+            produto = registroAtualizado.produto;
         }
         public override List<string> Validar()
         {

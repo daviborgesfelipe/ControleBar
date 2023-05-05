@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloMesa
 {
-    public class Mesa : EntidadeBase
+    public class Mesa : EntidadeBase<Mesa>
     {
         public string numero;
         public StatusMesa status;
@@ -33,10 +33,9 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
             status = StatusMesa.Ocupada;
         }
 
-        public override void AtualizarInformacoes(EntidadeBase registroAtualizado)
+        public override void AtualizarInformacoes(Mesa mesaAtualizada)
         {
-            Mesa mesaAtualizado = (Mesa)registroAtualizado;
-            this.numero = mesaAtualizado.numero;
+            this.numero = mesaAtualizada.numero;
         }
     }
 }
