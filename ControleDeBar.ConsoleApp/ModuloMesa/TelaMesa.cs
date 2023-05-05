@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloMesa
 {
-    public class TelaMesa : TelaBase
+    public class TelaMesa<TMesa> : TelaBase<Mesa>
     {
 
         public TelaMesa(RepositorioMesa _repositorioMesa)
@@ -12,7 +12,7 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
             nomeEntidade = "Mesa";
             sufixo = "s";
         }
-        protected override void MostrarTabela(ArrayList registros)
+        protected override void MostrarTabela(List<Mesa> registros)
         {
             const string FORMATO_TABELA = "| {0, -8} | {1, -10} | {2, -20} |";
             Console.WriteLine(FORMATO_TABELA, "IdMesa", "NumeroMesa", "Ocupada");
@@ -27,10 +27,10 @@ namespace ControleDeBar.ConsoleApp.ModuloMesa
                     );
             }
         }
-        protected override EntidadeBase ObterRegistro()
+        protected override Mesa ObterRegistro()
         {
             Console.Write($"Digite o numero da mesa: ");
-            int numero = Convert.ToInt32(Console.ReadLine());
+            string numero = Console.ReadLine();
             Console.WriteLine();
             return new Mesa(numero);
         }

@@ -4,17 +4,14 @@ using System.Collections;
 
 namespace ControleDeBar.ConsoleApp.ModuloGarcom
 {
-    public class TelaGarcom : TelaBase
+    public class TelaGarcom<TGarcom> : TelaBase<Garcom>
     {
-        RepositorioGarcom repositorioGarcom;
-
         public TelaGarcom(RepositorioGarcom _repositorioGarcom)
         {
             this.repositorioBase = _repositorioGarcom;
-            this.repositorioGarcom = _repositorioGarcom;
             nomeEntidade = "Garçom";
         }
-        protected override void MostrarTabela(ArrayList registros)
+        protected override void MostrarTabela(List<Garcom> registros)
         {
             const string FORMATO_TABELA = "| {0, -8} | {1, -20} |";
             Console.WriteLine(FORMATO_TABELA, "IdGarcom", "Nome");
@@ -27,7 +24,7 @@ namespace ControleDeBar.ConsoleApp.ModuloGarcom
                     garcom.nome);
             }
         }
-        protected override EntidadeBase ObterRegistro()
+        protected override Garcom ObterRegistro()
         {
             Console.Write($"Digite o nome do garçom: ");
             string nome = Console.ReadLine();
