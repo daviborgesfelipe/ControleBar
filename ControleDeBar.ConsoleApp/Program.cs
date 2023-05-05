@@ -1,4 +1,5 @@
-﻿using ControleDeBar.ConsoleApp.ModuloConta;
+﻿using ControleDeBar.ConsoleApp.Compartilhado;
+using ControleDeBar.ConsoleApp.ModuloConta;
 using ControleDeBar.ConsoleApp.ModuloGarcom;
 using ControleDeBar.ConsoleApp.ModuloMesa;
 using ControleDeBar.ConsoleApp.ModuloProdutos;
@@ -12,19 +13,16 @@ namespace ControleDeBar.ConsoleApp
         {
             Program program = new Program();
 
-            RepositorioGarcom _repositorioGarcom = new RepositorioGarcom(new ArrayList());
-            RepositorioMesa _repositorioMesa = new RepositorioMesa(new ArrayList());
-            RepositorioProduto _repositorioProduto = new RepositorioProduto(new ArrayList());
-            RepositorioConta _repositorioConta = new RepositorioConta(new ArrayList());
+            RepositorioGarcom _repositorioGarcom = new RepositorioGarcom(new List<Garcom>());
+            RepositorioMesa _repositorioMesa = new RepositorioMesa(new List<Mesa>());
+            RepositorioProduto _repositorioProduto = new RepositorioProduto(new List<Produto>());
+            RepositorioConta _repositorioConta = new RepositorioConta(new List<Conta>());
 
-            TelaProduto _telaProduto = new TelaProduto(_repositorioProduto);
-            TelaGarcom _telaGarcom = new TelaGarcom(_repositorioGarcom);
-            TelaMesa _telaMesa = new TelaMesa(_repositorioMesa);
-            TelaConta _telaConta = new TelaConta(
+            TelaProduto<Produto> _telaProduto = new TelaProduto<Produto>(_repositorioProduto);
+            TelaGarcom<Garcom> _telaGarcom = new TelaGarcom<Garcom>(_repositorioGarcom);
+            TelaMesa<Mesa> _telaMesa = new TelaMesa<Mesa>(_repositorioMesa);
+            TelaConta<Conta> _telaConta = new TelaConta<Conta>(
                 _repositorioConta,
-                _repositorioMesa,
-                _repositorioGarcom,
-                _repositorioProduto,
                 _telaMesa,
                 _telaGarcom,
                 _telaProduto
@@ -183,10 +181,10 @@ namespace ControleDeBar.ConsoleApp
             _repositorioGarcom.Inserir(garcomTres);
             _repositorioGarcom.Inserir(garcomQuatro);
 
-            Mesa mesaUm = new Mesa(333);
-            Mesa mesaDois = new Mesa(444);
-            Mesa mesaTres = new Mesa(777);
-            Mesa mesaQuatro = new Mesa(111);
+            Mesa mesaUm = new Mesa("333");
+            Mesa mesaDois = new Mesa("444");
+            Mesa mesaTres = new Mesa("777");
+            Mesa mesaQuatro = new Mesa("111");
             _repositorioMesa.Inserir(mesaUm);
             _repositorioMesa.Inserir(mesaDois);
             _repositorioMesa.Inserir(mesaTres);
@@ -195,7 +193,7 @@ namespace ControleDeBar.ConsoleApp
             Conta contaUm = new Conta(mesaTres, garcomUm, DateTime.Now);
             contaUm.RegistrarPedido(produtoCinco, 3);
             contaUm.RegistrarPedido(produtoDois, 7);
-
+            contaUm.PagarConta();
             Conta contaDois = new Conta(mesaQuatro, garcomDois, DateTime.Now);
             contaDois.RegistrarPedido(produtoDois, 4);
             contaDois.RegistrarPedido(produtoQuatro, 1);
@@ -205,6 +203,7 @@ namespace ControleDeBar.ConsoleApp
             Conta contaQuatro = new Conta(mesaUm, garcomQuatro, DateTime.Now);
             contaQuatro.RegistrarPedido(produtoUm, 3);
             contaQuatro.RegistrarPedido(produtoSeis, 3);
+            contaQuatro.PagarConta();
             Conta contaCinco = new Conta(mesaDois, garcomTres, DateTime.Now);
             contaCinco.RegistrarPedido(produtoUm, 3);
             contaCinco.RegistrarPedido(produtoDois, 3);
@@ -230,7 +229,7 @@ namespace ControleDeBar.ConsoleApp
             Console.WriteLine("[3] Produto");
             Console.WriteLine("[4] Conta\n");
 
-            Console.WriteLine("Digite [S] para Sair");
+            Console.WriteLine("Digite [0] para Sair");
 
             int opcao = Convert.ToInt32(Console.ReadLine());
 
